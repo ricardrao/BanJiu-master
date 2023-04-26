@@ -1,0 +1,46 @@
+package com.tencent.wxcloudrun.controller;
+
+
+import com.alibaba.fastjson.JSONObject;
+import com.tencent.wxcloudrun.config.ApiResponse;
+import com.tencent.wxcloudrun.entity.User;
+import com.tencent.wxcloudrun.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@CrossOrigin(origins = "*")
+public class UserController {
+
+    @Autowired
+    UserService userService;
+
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    @RequestMapping("/getUserAmount")
+    public ApiResponse getUserAmount(){
+        int userAmount = userService.getUserAmount();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userAmount", userAmount);
+        logger.info("\"/getUserAmount\" Api Response = " + jsonObject.toJSONString());
+        return ApiResponse.ok(jsonObject);
+    }
+
+    @RequestMapping("/getUserInfo")
+    public ApiResponse getUserInfo(String name){
+        if(name==null || "".equals(name)){
+            return ApiResponse.error("please input name");
+        }
+        User user = userService.getUser(name);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("user", user);
+        return ApiResponse.ok(jsonObject);
+    }
+}
