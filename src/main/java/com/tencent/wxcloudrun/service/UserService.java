@@ -17,8 +17,20 @@ public class UserService {
         return userMapper.getUserAmount();
     }
 
-    public List<User> getUser(String name){
-        return userMapper.getUser(name);
+    public List<User> getUserByName(String name){
+        return userMapper.getUserByName(name);
+    }
+
+    public boolean userIsExist(String account, String phoneNumber){
+        List<User> userList1 = userMapper.getUserByAccount(account);
+        List<User> userList2 = userMapper.getUserByPhoneNumber(phoneNumber);
+        if(userList1.size() == 0 && userList2.size() == 0){
+            return false;
+        } else return true;
+    }
+
+    public void addUser(User user){
+        userMapper.addUser(user);
     }
 
 }

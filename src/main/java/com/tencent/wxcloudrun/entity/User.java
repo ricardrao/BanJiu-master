@@ -8,8 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
-@Data
+
 @Entity
+@Data
 @Table(name = "Users")
 public class User {
 
@@ -26,7 +27,21 @@ public class User {
 
     private String userCategory;
 
-    private Date createTime;
+    private String createTime;
 
-    private Date updateTime;
+    private String updateTime;
+
+
+    public User(String account, String password, String userName, String phoneNumber, String userCategory, String createTime, String updateTime) {
+        this.account = account;
+        this.password = password;
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.userCategory = userCategory;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    public User() {
+    }
 }
