@@ -3,34 +3,30 @@ package com.tencent.wxcloudrun.entity;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
+
 @Data
+@Entity
+@Table(name = "Users")
 public class User {
 
-    private String name;
+    @Id
+    private int userId;
 
-    private String phone;
+    private String account;
 
-    public String getName() {
-        return name;
-    }
+    private String password;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String userName;
 
-    public String getPhone() {
-        return phone;
-    }
+    private String phoneNumber;
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    private String userCategory;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
-    }
+    private Date createTime;
+
+    private Date updateTime;
 }

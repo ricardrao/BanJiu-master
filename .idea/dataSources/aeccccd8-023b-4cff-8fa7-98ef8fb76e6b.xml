@@ -770,21 +770,69 @@ SELECT|sys.sys_config:null
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="238" parent="232" name="name">
+    <column id="238" parent="232" name="userId">
       <Position>1</Position>
+      <DataType>int(16) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="239" parent="232" name="account">
+      <Position>2</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="239" parent="232" name="phone">
-      <Position>2</Position>
+    <column id="240" parent="232" name="password">
+      <Position>3</Position>
       <DataType>varchar(16)|0s</DataType>
+      <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <key id="240" parent="232" name="PRIMARY">
+    <column id="241" parent="232" name="userName">
+      <Position>4</Position>
+      <DataType>varchar(16)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="242" parent="232" name="phoneNumber">
+      <Position>5</Position>
+      <DataType>varchar(16)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="243" parent="232" name="userCategory">
+      <Position>6</Position>
+      <DataType>enum(&apos;student&apos;, &apos;teacher&apos;, &apos;administrator&apos;)|0e</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="244" parent="232" name="createTime">
+      <Position>7</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
+    </column>
+    <column id="245" parent="232" name="updateTime">
+      <Position>8</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="246" parent="232" name="login">
+      <ColNames>account
+password</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="247" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>name</ColNames>
+      <ColNames>userId</ColNames>
       <Primary>1</Primary>
+    </key>
+    <key id="248" parent="232" name="login">
+      <ColNames>account
+password</ColNames>
+      <UnderlyingIndexName>login</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>

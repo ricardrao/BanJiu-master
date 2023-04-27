@@ -5,14 +5,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.entity.User;
 import com.tencent.wxcloudrun.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,13 +37,15 @@ public class UserController {
     }
 
     @RequestMapping("/getUserInfo")
-    public ApiResponse getUserInfo(String name){
-        if(name==null || "".equals(name)){
-            return ApiResponse.error("please input name");
+    public ApiResponse getUserInfo(@RequestParam(value = "userName") String uesrName){
+        if(uesrName==null || "".equals(uesrName)){
+            return ApiResponse.error("please input userName");
         }
-        User user = userService.getUser(name);
+        List<User> userList = userService.getUser(uesrName);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("user", user);
+        jsonObject.put("user", userList);
         return ApiResponse.ok(jsonObject);
     }
+
+
 }

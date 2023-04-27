@@ -13,7 +13,7 @@ public interface UserMapper {
     @Select("select count(*) from Users")
     int getUserAmount();
 
-    @Select("Select * from Users where name = #{name}")
-    User getUser(@Param("name") String name);
+    @Select("Select * from Users where userName = #{userName}")
+    List<User> getUser(@Param("userName") String userName);
 
 }

@@ -5,6 +5,7 @@ import com.tencent.wxcloudrun.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -16,7 +17,7 @@ public class UserService {
         return userMapper.getUserAmount();
     }
 
-    public User getUser(String name){
+    public List<User> getUser(String name){
         return userMapper.getUser(name);
     }
 
