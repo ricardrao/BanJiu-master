@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private HashSet<String> userCategory = new HashSet<String>(){{
+    private HashSet<String> userCategorySet = new HashSet<String>(){{
         add(UserCategory.STUDENT.name());
         add(UserCategory.ADMINISTRATOR.name());
         add(UserCategory.TEACHER.name());
@@ -65,7 +65,7 @@ public class UserController {
             return ApiResponse.error("user exists");
         }
 
-        if(!userCategory.contains(userCategory)){
+        if(!userCategorySet.contains(userCategory)){
             return ApiResponse.error("user category is not allowed");
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
