@@ -26,4 +26,7 @@ public interface UserMapper {
     @Insert("insert into Users (account, password, userName, phoneNumber, userCategory, createTime, updateTime) " +
             "values (#{user.account}, #{user.password}, #{user.userName}, #{user.phoneNumber}, #{user.userCategory}, #{user.createTime}, #{user.updateTime})")
     void addUser(@Param("user") User user);
+
+    @Select("select * from Users where account = #{account} and password = #{password}")
+    List<User> getUserByAccountAndPassword(@Param("account") String account, @Param("password") String password);
 }

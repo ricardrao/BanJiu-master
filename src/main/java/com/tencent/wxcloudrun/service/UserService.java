@@ -33,4 +33,12 @@ public class UserService {
         userMapper.addUser(user);
     }
 
+    public User getUserByAccountAndPassword(String account, String password){
+        List<User> userList = userMapper.getUserByAccountAndPassword(account, password);
+        if(userList==null || userList.size()==0){
+            return null;
+        }
+        return userList.get(0);
+    }
+
 }

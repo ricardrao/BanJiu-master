@@ -61,6 +61,19 @@ public class UserController {
         String userName = String.valueOf(userObject.get("userName"));
         String userCategory = String.valueOf(userObject.get("userCategory"));
 
+        if(account==null || "".equals(account)){
+            return ApiResponse.error("illegal account!");
+        }
+        if(password==null || "".equals(password)){
+            return ApiResponse.error("illegal password!");
+        }
+        if(phoneNumber==null || "".equals(phoneNumber)){
+            return ApiResponse.error("illegal phoneNumber!");
+        }
+        if(userName==null || "".equals(userName)){
+            return ApiResponse.error("illegal userName!");
+        }
+
         if(userService.userIsExist(account, phoneNumber)){
             return ApiResponse.error("user exists");
         }
@@ -74,5 +87,26 @@ public class UserController {
 
         userService.addUser(user);
         return ApiResponse.ok();
+    }
+
+
+// 调用示例/login?user={"account":"zbx","password":"zbx111"}
+    @RequestMapping("/login")
+    public ApiResponse login(@RequestParam(value = "userInfo") String userInfo){
+        if(userInfo==null || "".equals(userInfo)){
+            return ApiResponse.error("no user message!");
+        }
+        JSONObject userObject = JSONObject.parseObject(userInfo);
+        String account = String.valueOf(userObject.get("account"));
+        String password = String.valueOf(userObject.get("password"));
+        User user = userService.getUserByAccountAndPassword(account, password);
+        if(user == null){
+            return ApiResponse.error("no such user or a wrong password");
+        } else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("user", user);
+            return ApiResponse.ok(jsonObject);
+        }
+
     }
 }
