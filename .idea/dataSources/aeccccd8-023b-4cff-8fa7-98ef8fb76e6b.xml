@@ -742,160 +742,250 @@ SELECT|sys.sys_config:null
 </ObjectGrants>
     </user>
     <table id="231" parent="4" name="Counters"/>
-    <table id="232" parent="4" name="Urls">
+    <table id="232" parent="4" name="StudentRemainTimes">
+      <Comment>学生兑换次数表</Comment>
+    </table>
+    <table id="233" parent="4" name="Urls">
       <Comment>外部跳转链接</Comment>
     </table>
-    <table id="233" parent="4" name="Users"/>
-    <column id="234" parent="231" name="id">
+    <table id="234" parent="4" name="Users"/>
+    <table id="235" parent="4" name="cdkey">
+      <Comment>cdkey表</Comment>
+    </table>
+    <column id="236" parent="231" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="235" parent="231" name="count">
+    <column id="237" parent="231" name="count">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>1</DefaultExpression>
     </column>
-    <column id="236" parent="231" name="createdAt">
+    <column id="238" parent="231" name="createdAt">
       <Position>3</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="237" parent="231" name="updatedAt">
+    <column id="239" parent="231" name="updatedAt">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="238" parent="231" name="PRIMARY">
+    <key id="240" parent="231" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="239" parent="232" name="urlId">
+    <column id="241" parent="232" name="id">
+      <Position>1</Position>
+      <DataType>int(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="242" parent="232" name="studentId">
+      <Position>2</Position>
+      <DataType>int(32)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="243" parent="232" name="studentName">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="244" parent="232" name="originalQuestionTimes">
+      <Position>4</Position>
+      <DataType>int(32)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="245" parent="232" name="simulationQuestionTimes">
+      <Position>5</Position>
+      <DataType>int(32)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="246" parent="232" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="247" parent="233" name="urlId">
       <Position>1</Position>
       <DataType>int(16) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="240" parent="232" name="urlName">
+    <column id="248" parent="233" name="urlName">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="241" parent="232" name="urlCategory">
+    <column id="249" parent="233" name="urlContent">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="242" parent="232" name="urlImage">
+    <column id="250" parent="233" name="urlCategory">
       <Position>4</Position>
-      <DataType>blob|0s</DataType>
-    </column>
-    <column id="243" parent="232" name="createTime">
-      <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="244" parent="232" name="updateTime">
+    <column id="251" parent="233" name="urlImage">
+      <Position>5</Position>
+      <DataType>blob|0s</DataType>
+    </column>
+    <column id="252" parent="233" name="createTime">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="245" parent="232" name="uniqueUrl">
+    <column id="253" parent="233" name="updateTime">
+      <Position>7</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <index id="254" parent="233" name="uniqueUrlName">
       <ColNames>urlName</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="246" parent="232" name="PRIMARY">
+    <key id="255" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>urlId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="247" parent="232" name="uniqueUrl">
+    <key id="256" parent="233" name="uniqueUrlName">
       <ColNames>urlName</ColNames>
-      <UnderlyingIndexName>uniqueUrl</UnderlyingIndexName>
+      <UnderlyingIndexName>uniqueUrlName</UnderlyingIndexName>
     </key>
-    <column id="248" parent="233" name="userId">
+    <column id="257" parent="234" name="userId">
       <Position>1</Position>
       <DataType>int(16) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="249" parent="233" name="account">
+    <column id="258" parent="234" name="account">
       <Position>2</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="250" parent="233" name="password">
+    <column id="259" parent="234" name="password">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="251" parent="233" name="userName">
+    <column id="260" parent="234" name="userName">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="252" parent="233" name="phoneNumber">
+    <column id="261" parent="234" name="phoneNumber">
       <Position>5</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="253" parent="233" name="userCategory">
+    <column id="262" parent="234" name="userCategory">
       <Position>6</Position>
       <DataType>enum(&apos;student&apos;, &apos;teacher&apos;, &apos;administrator&apos;)|0e</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="254" parent="233" name="createTime">
+    <column id="263" parent="234" name="createTime">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;CURRENT_TIMESTAMP&apos;</DefaultExpression>
     </column>
-    <column id="255" parent="233" name="updateTime">
+    <column id="264" parent="234" name="updateTime">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;CURRENT_TIMESTAMP&apos;</DefaultExpression>
     </column>
-    <column id="256" parent="233" name="homeworkCorrectionTimes">
+    <column id="265" parent="234" name="homeworkCorrectionTimes">
       <Position>9</Position>
       <DataType>int(32)|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <index id="257" parent="233" name="uniqueAccount">
+    <column id="266" parent="234" name="targetYear">
+      <Position>10</Position>
+      <DataType>int(32)|0s</DataType>
+    </column>
+    <column id="267" parent="234" name="targetSchool">
+      <Position>11</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="268" parent="234" name="targetMajor">
+      <Position>12</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <index id="269" parent="234" name="uniqueAccount">
       <ColNames>account</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="258" parent="233" name="uniquePhoneNumber">
+    <index id="270" parent="234" name="uniquePhoneNumber">
       <ColNames>phoneNumber</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="259" parent="233" name="login">
+    <index id="271" parent="234" name="login">
       <ColNames>account
 password</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="260" parent="233" name="PRIMARY">
+    <key id="272" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="261" parent="233" name="uniqueAccount">
+    <key id="273" parent="234" name="uniqueAccount">
       <ColNames>account</ColNames>
       <UnderlyingIndexName>uniqueAccount</UnderlyingIndexName>
     </key>
-    <key id="262" parent="233" name="uniquePhoneNumber">
+    <key id="274" parent="234" name="uniquePhoneNumber">
       <ColNames>phoneNumber</ColNames>
       <UnderlyingIndexName>uniquePhoneNumber</UnderlyingIndexName>
+    </key>
+    <column id="275" parent="235" name="id">
+      <Position>1</Position>
+      <DataType>int(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="276" parent="235" name="cdkey">
+      <Position>2</Position>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="277" parent="235" name="questionCategory">
+      <Position>3</Position>
+      <DataType>enum(&apos;original&apos;, &apos;simulate&apos;)|0e</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="278" parent="235" name="validTimes">
+      <Position>4</Position>
+      <DataType>int(32)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="279" parent="235" name="createTime">
+      <Position>5</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
+    </column>
+    <key id="280" parent="235" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
     </key>
   </database-model>
 </dataSource>
