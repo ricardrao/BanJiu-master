@@ -3,7 +3,7 @@ package com.tencent.wxcloudrun.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tencent.wxcloudrun.config.ApiResponse;
-import com.tencent.wxcloudrun.config.UserCategory;
+import com.tencent.wxcloudrun.config.UrlCategory;
 import com.tencent.wxcloudrun.entity.Url;
 import com.tencent.wxcloudrun.entity.User;
 import com.tencent.wxcloudrun.service.UrlService;
@@ -28,6 +28,11 @@ public class UrlController {
     @Autowired
     private UrlService urlService;
 
+    private HashSet<String> urlCategorySet = new HashSet<String>(){{
+        add(UrlCategory.CORRECT.name());
+        add(UrlCategory.TEACH.name());
+    }};
+
 
     private static Logger logger = LoggerFactory.getLogger(UrlController.class);
 
@@ -51,7 +56,7 @@ public class UrlController {
         return ApiResponse.ok(jsonObject);
     }
 
-    //调用示例 /addUrl?urlInfo={"urlName":"https://...","urlCategory":"teach","urlImage":"binary data"}
+    //调用示例 /addUrl?urlInfo={"urlName":"https://...","urlCategory":"TEACH","urlImage":"binary data"}
     @RequestMapping("/addUrl")
     public ApiResponse addUrl(@RequestParam(value = "urlInfo") String urlInfo){
         if(urlInfo==null || "".equals(urlInfo)){
@@ -72,6 +77,7 @@ public class UrlController {
         if(urlImage==null || "".equals(urlImage)){
             return ApiResponse.error("illegal urlImage!");
         }
+
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Url url = new Url(urlName, urlCategory, urlImage, formatter.format(new Date()), formatter.format(new Date()));
