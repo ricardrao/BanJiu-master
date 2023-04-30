@@ -83,7 +83,7 @@ public class UserController {
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         User user = new User(account, password, userName, phoneNumber,
-                                userCategory, formatter.format(new Date()), formatter.format(new Date()));
+                                userCategory, formatter.format(new Date()), formatter.format(new Date()), 0, 0, "", "");
 
         userService.addUser(user);
         return ApiResponse.ok();
@@ -109,4 +109,6 @@ public class UserController {
         }
 
     }
+
+
 }

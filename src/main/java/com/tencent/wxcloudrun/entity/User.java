@@ -31,8 +31,16 @@ public class User {
 
     private String updateTime;
 
+    private int homeworkCorrectionTimes;
 
-    public User(String account, String password, String userName, String phoneNumber, String userCategory, String createTime, String updateTime) {
+    private int targetYear;
+
+    private String targetSchool;
+
+    private String targetMajor;
+
+    public User(String account, String password, String userName, String phoneNumber, String userCategory, String createTime,
+                String updateTime, int homeworkCorrectionTimes, int targetYear, String targetMajor, String targetSchool) {
         this.account = account;
         this.password = password;
         this.userName = userName;
@@ -40,6 +48,10 @@ public class User {
         this.userCategory = userCategory;
         this.createTime = createTime;
         this.updateTime = updateTime;
+        this.homeworkCorrectionTimes = homeworkCorrectionTimes;
+        this.targetYear = targetYear;
+        this.targetSchool = targetSchool;
+        this.targetMajor = targetMajor;
     }
 
     public User() {
