@@ -54,12 +54,13 @@ public class UserController {
         if(userInfo==null || "".equals(userInfo)){
             return ApiResponse.error("no user message!");
         }
-        JSONObject userObject = JSONObject.parseObject(userInfo);
-        String account = String.valueOf(userObject.get("account"));
-        String password = String.valueOf(userObject.get("password"));
-        String phoneNumber = String.valueOf(userObject.get("phoneNumber"));
-        String userName = String.valueOf(userObject.get("userName"));
-        String userCategory = String.valueOf(userObject.get("userCategory"));
+        User user = JSONObject.parseObject(userInfo, User.class);
+
+        String account = user.getAccount();
+        String password = user.getPassword();
+        String phoneNumber = user.getPhoneNumber();
+        String userName = user.getUserName();
+        String userCategory = user.getUserCategory();
 
         if(account==null || "".equals(account)){
             return ApiResponse.error("illegal account!");
@@ -82,15 +83,15 @@ public class UserController {
             return ApiResponse.error("user category is not allowed");
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        User user = new User(account, password, userName, phoneNumber,
-                                userCategory, formatter.format(new Date()), formatter.format(new Date()));
+        User newUser = new User(account, password, userName, phoneNumber,
+                                userCategory, formatter.format(new Date()), formatter.format(new Date()), 0, 0, "", "");
 
-        userService.addUser(user);
+        userService.addUser(newUser);
         return ApiResponse.ok();
     }
 
 
-// 调用示例/login?user={"account":"zbx","password":"zbx111"}
+// 调用示例/login?userInfo={"account":"zbx","password":"zbx111"}
     @RequestMapping("/login")
     public ApiResponse login(@RequestParam(value = "userInfo") String userInfo){
         if(userInfo==null || "".equals(userInfo)){
@@ -109,4 +110,6 @@ public class UserController {
         }
 
     }
+
+
 }
