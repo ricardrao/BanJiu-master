@@ -48,7 +48,7 @@ public class UserController {
         return ApiResponse.ok(jsonObject);
     }
 
-//调用示例 /registerUser?userInfo={"account":"zbxxx","password":"zbx111","userName":"朱柏贤","phoneNumber":"1823123293","userCategory":"student"}
+//调用示例 /registerUser?userInfo={"account":"zbxxx","password":"zbx111","userName":"朱柏贤","phoneNumber":"1823123293","userCategory":"STUDENT"}
     @RequestMapping("/registerUser")
     public ApiResponse registerUser(@RequestParam(value = "userInfo") String userInfo){
         if(userInfo==null || "".equals(userInfo)){
