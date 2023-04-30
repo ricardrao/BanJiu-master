@@ -15,12 +15,12 @@ public interface UrlMapper {
     @Select("select count(*) from Urls")
     int getUrlAmount();
 
-    @Select("select * from Urls where url = #{url}")
-    List<Url> getUrl(@Param("url") String url);
+    @Select("select * from Urls where urlName = #{urlName}")
+    List<Url> getUrlByName(@Param("urlName") String urlName);
 
 
-    @Insert("insert into Urls (urlName, urlCategory, urlImage, createTime, updateTime) " +
-            "values (#{url.urlName}, #{url.urlCategory}, #{url.urlImage}, #{url.createTime}, #{url.updateTime})")
+    @Insert("insert into Urls (urlName, urlContent, urlCategory, urlImage, createTime, updateTime) " +
+            "values (#{url.urlName}, #{url.urlContent}, #{url.urlCategory}, #{url.urlImage}, #{url.createTime}, #{url.updateTime})")
     void addUrl(@Param("url") Url url);
 
 }

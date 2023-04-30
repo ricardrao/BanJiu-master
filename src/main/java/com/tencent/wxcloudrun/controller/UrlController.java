@@ -45,18 +45,19 @@ public class UrlController {
         return ApiResponse.ok(jsonObject);
     }
 
+    //调用示例 /getUrlInfo?urlName={"urlName":"2022kaoyanban"}
     @RequestMapping("/getUrlInfo")
     public ApiResponse getUrlInfo(@RequestParam(value = "urlName") String urlName){
         if(urlName==null || "".equals(urlName)){
             return ApiResponse.error("please input urlName");
         }
-        List<Url> urlList = urlService.getUrl(urlName);
+        List<Url> urlList = urlService.getUrlByName(urlName);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url", urlList);
         return ApiResponse.ok(jsonObject);
     }
 
-    //调用示例 /addUrl?urlInfo={"urlName":"https://...","urlCategory":"TEACH","urlImage":"binary data"}
+    //调用示例 /addUrl?urlInfo={"urlName":"2022kaoyanban","urlContent":"https://...","urlCategory":"TEACH","urlImage":"binary data"}
     @RequestMapping("/addUrl")
     public ApiResponse addUrl(@RequestParam(value = "urlInfo") String urlInfo){
         if(urlInfo==null || "".equals(urlInfo)){
@@ -64,23 +65,28 @@ public class UrlController {
         }
         JSONObject urlObject = JSONObject.parseObject(urlInfo);
         String urlName = String.valueOf(urlObject.get("urlName"));
+        String urlContent = String.valueOf(urlObject.get("urlContent"));
         String urlCategory = String.valueOf(urlObject.get("urlCategory"));
-        String urlImage = String.valueOf(urlObject.get("urlImage"));
+        byte[] urlImage = urlObject.getBytes("urlImage");
+
 
 
         if(urlName==null || "".equals(urlName)){
             return ApiResponse.error("illegal urlName!");
         }
+        if(urlContent==null || "".equals(urlContent)){
+            return ApiResponse.error("illegal urlContent!");
+        }
         if(urlCategory==null || "".equals(urlCategory)){
             return ApiResponse.error("illegal urlCategory!");
         }
-        if(urlImage==null || "".equals(urlImage)){
+        if(urlImage==null){
             return ApiResponse.error("illegal urlImage!");
         }
 
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Url url = new Url(urlName, urlCategory, urlImage, formatter.format(new Date()), formatter.format(new Date()));
+        Url url = new Url(urlName, urlContent, urlCategory, urlImage, formatter.format(new Date()), formatter.format(new Date()));
 
         urlService.addUrl(url);
         return ApiResponse.ok();

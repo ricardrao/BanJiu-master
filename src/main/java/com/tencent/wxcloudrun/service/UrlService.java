@@ -17,8 +17,8 @@ public class UrlService {
         return urlMapper.getUrlAmount();
     }
 
-    public List<Url> getUrl(String urlName){
-        return urlMapper.getUrl(urlName);
+    public List<Url> getUrlByName(String urlName){
+        return urlMapper.getUrlByName(urlName);
     }
 
     public void addUrl(Url url){

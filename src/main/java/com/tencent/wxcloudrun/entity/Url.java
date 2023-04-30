@@ -17,18 +17,21 @@ public class Url {
 
     private String urlName;
 
+    private String urlContent;
+
     private String urlCategory;
 
 
-    private String urlImage;
+    private byte[] urlImage;
 
     private String createTime;
 
     private String updateTime;
 
 
-    public Url(String urlName, String urlCategory, String urlImage, String createTime, String updateTime) {
+    public Url(String urlName,String urlContent, String urlCategory, byte[] urlImage, String createTime, String updateTime) {
         this.urlName = urlName;
+        this.urlContent = urlContent;
         this.urlCategory = urlCategory;
         this.urlImage = urlImage;
         this.createTime = createTime;
