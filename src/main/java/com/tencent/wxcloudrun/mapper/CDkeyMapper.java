@@ -1,17 +1,24 @@
 package com.tencent.wxcloudrun.mapper;
 
 import com.tencent.wxcloudrun.entity.CDkey;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import com.tencent.wxcloudrun.entity.User;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface CDkeyMapper {
 
 
     @Insert("insert into cdkey (cdkey, questionCategory, validTimes, createTime, isUsed)" +
-            "values (#{CDkey.cdkey}, #{CDkey.questionCategory}, #{CDkey.validTimes}, #{CDkey.createTime}, #{CDkey.isUsed})")
-    void generateCDkey(@Param("CDkey") CDkey key);
+            "values (#{cdkey.cdkey}, #{cdkey.questionCategory}, #{cdkey.validTimes}, #{cdkey.createTime}, #{cdkey.isUsed})")
+    void generateCDkey(@Param("cdkey") CDkey cdkey);
 
+    @Select("select * from cdkey where cdkey = #{cdkey}")
+    List<CDkey> checkCDkey(@Param("cdkey") String cdkey);
+
+    @Update("update cdkey set isUsed = '1', userAccount = #{user.account}, userName = #{user.userName}, userPhoneNumber = #{user.phoneNumber}" +
+            "where cdkey = #{cdkey.cdkey}")
+    void expireCDkey(@Param("user") User user, @Param("cdkey") CDkey cdkey);
 
 }
