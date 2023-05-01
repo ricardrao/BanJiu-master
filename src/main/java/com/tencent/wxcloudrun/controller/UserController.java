@@ -4,10 +4,12 @@ package com.tencent.wxcloudrun.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.tencent.wxcloudrun.config.*;
 import com.tencent.wxcloudrun.entity.User;
+import com.tencent.wxcloudrun.service.StudentRemainTimesService;
 import com.tencent.wxcloudrun.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StudentRemainTimesService studentRemainTimesService;
 
     private HashSet<String> userCategorySet = new HashSet<String>(){{
         add(UserCategory.STUDENT.name());
@@ -50,6 +55,7 @@ public class UserController {
 
 //调用示例 /registerUser?userInfo={"account":"zbxxx","password":"zbx111","userName":"朱柏贤","phoneNumber":"1823123293","userCategory":"STUDENT"}
     @RequestMapping("/registerUser")
+    @Transactional
     public ApiResponse registerUser(@RequestParam(value = "userInfo") String userInfo){
         if(userInfo==null || "".equals(userInfo)){
             return ApiResponse.error("no user message!");
@@ -87,6 +93,10 @@ public class UserController {
                                 userCategory, formatter.format(new Date()), formatter.format(new Date()), 0, 0, "", "");
 
         userService.addUser(newUser);
+        User userByAccountAndPassword = userService.getUserByAccountAndPassword(newUser.getAccount(), newUser.getPassword());
+        if(UserCategory.STUDENT.name().equalsIgnoreCase(userByAccountAndPassword.getUserCategory())) {
+            studentRemainTimesService.addStudent(userByAccountAndPassword);
+        }
         return ApiResponse.ok();
     }
 
