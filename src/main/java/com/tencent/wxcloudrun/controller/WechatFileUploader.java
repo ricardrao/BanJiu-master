@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -29,15 +32,16 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class WechatFileUploader {
 
-    public String upload(String accessToken, String filename, File file) {
-        System.out.println(file.length());
-        HttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://api.weixin.qq.com/tcb/uploadfile?access_token=" + accessToken);
+    public String upload(String accessToken, String filename, File file) throws JsonProcessingException {
+
+
+
         String url = "https://api.weixin.qq.com/tcb/uploadfile" + "?access_token=" + accessToken;
-        String jsonStr = "{\"env\":\"" + "prod-6g45dsyn5bf0c43b" + "\",\"path\":\"" + "test"   + "\"}";
+        String jsonStr = "{\"env\":\"" + "prod-6g45dsyn5bf0c43b" + "\",\"path\":\"" + "Image/" + filename + ".jpg"  + "\"}";
+
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.postForObject(url, jsonStr, String.class);
-        System.out.println(result);
+
         JSONObject jsonObject = JSON.parseObject(result);
         String urlFileId = jsonObject.getString("file_id");
         String urlUpload = jsonObject.getString("url");
@@ -48,20 +52,20 @@ public class WechatFileUploader {
 
 
         RestTemplate restTemplate2 = new RestTemplate();
-        System.out.println(filename);
+
         // 上传文件
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
-        bodyMap.add("key", "test"  ); // 文件在云存储中的路径
+        bodyMap.add("key", "Image/" + filename + ".jpg" ); // 文件在云存储中的路径
         bodyMap.add("Signature", tokenAuthorization); // 上传所需的签名信息
         bodyMap.add("x-cos-security-token", tokenUpload); // 上传所需的 token
         bodyMap.add("x-cos-meta-fileid", tokenCos_file_id); // 上传所需的 token
-        bodyMap.add("file", file); // 上传的文件
+        bodyMap.add("file", new FileSystemResource(file)); // 上传的文件
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>(bodyMap, headers);
         ResponseEntity<String> responseEntity = restTemplate2.exchange(urlUpload, HttpMethod.POST, entity, String.class);
-
-
+        String responseBody = responseEntity.getBody();
+        file.delete();
         return null;
     }
 }

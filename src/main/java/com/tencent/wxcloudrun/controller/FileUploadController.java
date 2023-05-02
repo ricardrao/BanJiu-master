@@ -3,9 +3,17 @@ package com.tencent.wxcloudrun.controller;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tencent.wxcloudrun.config.ApiResponse;
+import com.tencent.wxcloudrun.mapper.FileMapper;
+import com.tencent.wxcloudrun.service.FileService;
+
+import com.tencent.wxcloudrun.service.UrlService;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -24,12 +32,14 @@ public class FileUploadController {
     @Autowired
     private WechatFileUploader wechatFileUploader;
 
+    @Autowired
+    private FileService fileService;
+
+
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("fileInput") MultipartFile multipartFile) {
+    public ApiResponse uploadFile(@RequestParam("fileInput") MultipartFile multipartFile) {
         if (!multipartFile.isEmpty()) {
             try {
-
-
 
                 try {
                     String fileName = multipartFile.getOriginalFilename();
@@ -43,10 +53,20 @@ public class FileUploadController {
                     String accessToken = getAccessToken();
                     System.out.println(accessToken);
                     // 若需要防止生成的临时文件重复,可以在文件名后添加随机码
-                    //String filename = UUID.randomUUID().toString();
+                    fileName = UUID.randomUUID().toString();
                     String result = wechatFileUploader.upload(accessToken, fileName, file);
+                    JSONObject fileObject = new JSONObject();
+                    fileObject.put("fileName", fileName);
+                    fileObject.put("filePrefix", prefix);
 
-                    return "redirect:/index.html";
+                    String urlName = String.valueOf(fileObject.get("fileName"));
+                    String urlPrefix = String.valueOf(fileObject.get("filePrefix"));
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    com.tencent.wxcloudrun.entity.File file1 = new com.tencent.wxcloudrun.entity.File(urlName,urlPrefix,formatter.format(new Date()), formatter.format(new Date()));
+                    fileService.addFile(file1);
+
+                    return ApiResponse.ok();
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -57,7 +77,7 @@ public class FileUploadController {
             }
 
         }
-        return "redirect:/index.html";
+        return ApiResponse.error("please upload file!!");
     }
 
     private static final String APP_ID = "wxa7a8b87f8f413285";
