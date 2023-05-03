@@ -73,6 +73,7 @@ public class CDkeyController {
         return ApiResponse.ok(jsonObject);
     }
 
+    // 示例：/consumeCDkey?userPhoneNumber=18761181193&&CDkey=d2792e5fc38448619b6a2eccd6979f06
     @RequestMapping("/consumeCDkey")
     public ApiResponse consumeCDkey(@RequestParam(value = "userPhoneNumber") String userPhoneNumber, @RequestParam("CDkey") String CDkey){
         //user直接从当前操作账号获取，怎么实现
