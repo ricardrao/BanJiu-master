@@ -10,10 +10,7 @@ import com.tencent.wxcloudrun.service.CDkeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,7 +36,7 @@ public class CDkeyController {
 
 
     //调用示例   /generateCDkey?generateInfo={"validTimes":10,"questionCategory":"simulate"}
-    @RequestMapping("/generateCDkey")
+    @RequestMapping(value = "/generateCDkey", method = RequestMethod.POST)
     public ApiResponse generateCDkey(@RequestParam(value = "generateInfo") String generateInfo){
         if(generateInfo==null || "".equals(generateInfo)){
             return ApiResponse.error("generate infomation is null");
@@ -74,7 +71,7 @@ public class CDkeyController {
     }
 
     // 示例：/consumeCDkey?userPhoneNumber=18761181193&&CDkey=d2792e5fc38448619b6a2eccd6979f06
-    @RequestMapping("/consumeCDkey")
+    @RequestMapping(value = "/consumeCDkey", method = RequestMethod.POST)
     public ApiResponse consumeCDkey(@RequestParam(value = "userPhoneNumber") String userPhoneNumber, @RequestParam("CDkey") String CDkey){
         //user直接从当前操作账号获取，怎么实现
 

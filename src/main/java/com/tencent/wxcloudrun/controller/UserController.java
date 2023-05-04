@@ -42,7 +42,7 @@ public class UserController {
         return ApiResponse.ok(jsonObject);
     }
 
-    @RequestMapping("/getUserInfo")
+    @RequestMapping(value = "/getUserInfo", method = {RequestMethod.POST})
     public ApiResponse getUserInfo(@RequestParam(value = "userName") String uesrName){
         if(uesrName==null || "".equals(uesrName)){
             return ApiResponse.error("please input userName");
@@ -54,7 +54,7 @@ public class UserController {
     }
 
 //调用示例 /registerUser?userInfo={"account":"zbxxx","password":"zbx111","userName":"朱柏贤","phoneNumber":"1823123293","userCategory":"STUDENT"}
-    @RequestMapping("/registerUser")
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
     @Transactional
     public ApiResponse registerUser(@RequestParam(value = "userInfo") String userInfo){
         if(userInfo==null || "".equals(userInfo)){
@@ -102,7 +102,7 @@ public class UserController {
 
 
 // 调用示例/login?userInfo={"account":"zbx","password":"zbx111"}
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ApiResponse login(@RequestParam(value = "userInfo") String userInfo){
         if(userInfo==null || "".equals(userInfo)){
             return ApiResponse.error("no user message!");
