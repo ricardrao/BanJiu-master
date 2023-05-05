@@ -56,7 +56,7 @@ public class UserController {
 //调用示例 /registerUser?userInfo={"account":"zbxxx","password":"zbx111","userName":"朱柏贤","phoneNumber":"1823123293","userCategory":"STUDENT"}
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
     @Transactional
-    public ApiResponse registerUser(@RequestParam(value = "userInfo") String userInfo){
+    public ApiResponse registerUser(@RequestBody String userInfo){
         if(userInfo==null || "".equals(userInfo)){
             return ApiResponse.error("no user message!");
         }
@@ -103,7 +103,7 @@ public class UserController {
 
 // 调用示例/login?userInfo={"account":"zbx","password":"zbx111"}
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ApiResponse login(@RequestParam(value = "userInfo") String userInfo){
+    public ApiResponse login(@RequestBody String userInfo){
         if(userInfo==null || "".equals(userInfo)){
             return ApiResponse.error("no user message!");
         }

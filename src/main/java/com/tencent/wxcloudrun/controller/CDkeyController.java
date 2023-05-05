@@ -37,7 +37,7 @@ public class CDkeyController {
 
     //调用示例   /generateCDkey?generateInfo={"validTimes":10,"questionCategory":"simulate"}
     @RequestMapping(value = "/generateCDkey", method = RequestMethod.POST)
-    public ApiResponse generateCDkey(@RequestParam(value = "generateInfo") String generateInfo){
+    public ApiResponse generateCDkey(@RequestBody String generateInfo){
         if(generateInfo==null || "".equals(generateInfo)){
             return ApiResponse.error("generate infomation is null");
         }
@@ -72,8 +72,13 @@ public class CDkeyController {
 
     // 示例：/consumeCDkey?userPhoneNumber=18761181193&&CDkey=d2792e5fc38448619b6a2eccd6979f06
     @RequestMapping(value = "/consumeCDkey", method = RequestMethod.POST)
-    public ApiResponse consumeCDkey(@RequestParam(value = "userPhoneNumber") String userPhoneNumber, @RequestParam("CDkey") String CDkey){
+    public ApiResponse consumeCDkey(@RequestBody JSONObject params){
         //user直接从当前操作账号获取，怎么实现
+        if(params==null || "".equals(params.toString())){
+            return ApiResponse.error("please input request body");
+        }
+        String CDkey = (String) params.get("CDkey");
+        String userPhoneNumber = (String) params.get("userPhoneNumber");
 
         if(CDkey==null || "".equals(CDkey)){
             return ApiResponse.error("please input CDkey");
