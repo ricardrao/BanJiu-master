@@ -81,11 +81,12 @@ public class UserController {
             return ApiResponse.error("illegal userName!");
         }
 
-        if(userService.userIsExist(account, phoneNumber)){
-            return ApiResponse.error("user exists");
+        String userExistsStatus = userService.userIsExist(account, phoneNumber);
+        if(!userExistsStatus.equals("approved")){
+            return ApiResponse.error(userExistsStatus);
         }
 
-        if(!userCategorySet.contains(userCategory)){
+        if(!userCategorySet.contains(userCategory.toUpperCase())){
             return ApiResponse.error("user category is not allowed");
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
