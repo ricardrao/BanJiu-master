@@ -21,12 +21,16 @@ public class UserService {
         return userMapper.getUserByName(name);
     }
 
-    public boolean userIsExist(String account, String phoneNumber){
+    public String userIsExist(String account, String phoneNumber){
         List<User> userList1 = userMapper.getUserByAccount(account);
         List<User> userList2 = userMapper.getUserByPhoneNumber(phoneNumber);
-        if(userList1.size() == 0 && userList2.size() == 0){
-            return false;
-        } else return true;
+        if(userList1!=null && userList1.size()!=0){
+            return "user account has already existed";
+        } else if(userList2!=null && userList2.size()!=0){
+            return "user phone number has already existed";
+        } else {
+            return "approved";
+        }
     }
 
     public void addUser(User user){
