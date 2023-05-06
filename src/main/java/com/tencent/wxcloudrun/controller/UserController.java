@@ -2,7 +2,9 @@ package com.tencent.wxcloudrun.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.wxcloudrun.config.*;
+import com.tencent.wxcloudrun.entity.StudentRemainTimes;
 import com.tencent.wxcloudrun.entity.User;
 import com.tencent.wxcloudrun.service.StudentRemainTimesService;
 import com.tencent.wxcloudrun.service.UserService;
@@ -35,19 +37,22 @@ public class UserController {
 
     @RequestMapping("/getUserAmount")
     public ApiResponse getUserAmount(){
-        int userAmount = userService.getUserAmount();
+        int userAmount = userService.count();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userAmount", userAmount);
         logger.info("\"/getUserAmount\" Api Response = " + jsonObject.toJSONString());
         return ApiResponse.ok(jsonObject);
     }
 
-    @RequestMapping(value = "/getUserInfo", method = {RequestMethod.POST})
-    public ApiResponse getUserInfo(@RequestParam(value = "userName") String uesrName){
-        if(uesrName==null || "".equals(uesrName)){
+
+
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+    public ApiResponse getUserInfo(@RequestParam(value = "userName") String userName){
+        if(userName==null || "".equals(userName)){
             return ApiResponse.error("please input userName");
         }
-        List<User> userList = userService.getUserByName(uesrName);
+
+        List<User> userList = userService.getUserByName(userName);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("user", userList);
         return ApiResponse.ok(jsonObject);
@@ -81,22 +86,32 @@ public class UserController {
             return ApiResponse.error("illegal userName!");
         }
 
-        String userExistsStatus = userService.userIsExist(account, phoneNumber);
-        if(!userExistsStatus.equals("approved")){
-            return ApiResponse.error(userExistsStatus);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account", account)
+                .eq("phoneNumber", phoneNumber);
+
+        if(userService.getBaseMapper().selectOne(queryWrapper) == null){
+            return ApiResponse.error("user exists");
         }
 
-        if(!userCategorySet.contains(userCategory.toUpperCase())){
+        if(!userCategorySet.contains(userCategory)){
             return ApiResponse.error("user category is not allowed");
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         User newUser = new User(account, password, userName, phoneNumber,
                                 userCategory, formatter.format(new Date()), formatter.format(new Date()), 0, 0, "", "");
 
-        userService.addUser(newUser);
+        userService.getBaseMapper().insert(newUser);
+
         User userByAccountAndPassword = userService.getUserByAccountAndPassword(newUser.getAccount(), newUser.getPassword());
+        StudentRemainTimes studentRemainTimes = new StudentRemainTimes();
+        studentRemainTimes.setStudentId(userByAccountAndPassword.getUserId());
+        studentRemainTimes.setStudentName(userByAccountAndPassword.getUserName());
+        studentRemainTimes.setStudentPhoneNumber(userByAccountAndPassword.getPhoneNumber());
+
+
         if(UserCategory.STUDENT.name().equalsIgnoreCase(userByAccountAndPassword.getUserCategory())) {
-            studentRemainTimesService.addStudent(userByAccountAndPassword);
+            studentRemainTimesService.getBaseMapper().insert(studentRemainTimes);
         }
         return ApiResponse.ok();
     }

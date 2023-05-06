@@ -1,6 +1,10 @@
 package com.tencent.wxcloudrun.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -11,32 +15,53 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "Users")
+@TableName("Users")
 public class User {
 
     @Id
+    @TableId(value = "userId", type = IdType.AUTO)
     private int userId;
 
+
+    @TableField(value = "account")
     private String account;
 
+
+    @TableField(value = "password")
     private String password;
 
+
+    @TableField(value = "userName")
     private String userName;
 
+
+    @TableField(value = "phoneNumber")
     private String phoneNumber;
 
+
+    @TableField(value = "userCategory")
     private String userCategory;
 
+
+    @TableField(value = "createTime")
     private String createTime;
 
+
+    @TableField(value = "updateTime")
     private String updateTime;
 
+
+    @TableField(value = "homeworkCorrectionTimes")
     private int homeworkCorrectionTimes;
 
+
+    @TableField(value = "targetYear")
     private int targetYear;
 
+    @TableField(value = "targetSchool")
     private String targetSchool;
 
+    @TableField(value = "targetMajor")
     private String targetMajor;
 
     public User(String account, String password, String userName, String phoneNumber, String userCategory, String createTime,

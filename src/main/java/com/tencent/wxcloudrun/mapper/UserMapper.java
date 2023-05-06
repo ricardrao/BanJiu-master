@@ -1,13 +1,15 @@
 package com.tencent.wxcloudrun.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tencent.wxcloudrun.entity.File;
 import com.tencent.wxcloudrun.entity.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
-
+public interface UserMapper extends BaseMapper<User> {
+    /*
     @Select("select count(*) from Users")
     int getUserAmount();
 
@@ -30,4 +32,6 @@ public interface UserMapper {
     @Update("update Users set homeworkCorrectionTimes = homeworkCorrectionTimes + #{times}, updateTime = #{updateTime}" +
             "where phoneNumber = #{user.phoneNumber}")
     void updateUserValidTimes(@Param("user") User user, int times, String updateTime);
+
+     */
 }

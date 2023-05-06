@@ -1,29 +1,24 @@
 package com.tencent.wxcloudrun.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.wxcloudrun.entity.Url;
+import com.tencent.wxcloudrun.entity.User;
 import com.tencent.wxcloudrun.mapper.UrlMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service
-public class UrlService {
 
-    @Resource
-    private UrlMapper urlMapper;
+public interface UrlService extends IService<Url> {
 
-    public int getUrlAmount(){
-        return urlMapper.getUrlAmount();
-    }
+    public int getUrlAmount();
 
-    public List<Url> getUrlByName(String urlName){
-        return urlMapper.getUrlByName(urlName);
-    }
+    public List<Url> getUrlByName(String urlName);
 
-    public void addUrl(Url url){
-        urlMapper.addUrl(url);
-    }
+    public void addUrl(Url url);
+
+
 
 
 }
