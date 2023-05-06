@@ -1,6 +1,7 @@
 package com.tencent.wxcloudrun.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.wxcloudrun.entity.File;
 import com.tencent.wxcloudrun.entity.User;
@@ -44,6 +45,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private UserMapper userMapper;
 
+    public void updateUserValidTimes(User user, int validTimes, String updateTimes){
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("userId", user.getUserId());
+        user.setHomeworkCorrectionTimes(user.getHomeworkCorrectionTimes()+validTimes);
+        user.setUpdateTime(updateTimes);
+        userMapper.update(user,updateWrapper);
+    }
+
     public List<User> getUserByName(String userName){
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("userName", userName);
@@ -51,14 +60,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return user;
     }
 
+    public List<User> getUserByPhoneNumber(String userPhoneNumber){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("phoneNumber", userPhoneNumber);
+
+        List<User> userList = userMapper.selectList(queryWrapper);
+        return userList;
+    }
 
     public User getUserByAccountAndPassword(String account, String password){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", account)
                 .eq("password", password);
 
-        User userByAccountAndPassword = userMapper.selectOne(queryWrapper);
-        return userByAccountAndPassword;
+        List<User> userList = userMapper.selectList(queryWrapper);
+        return userList.get(0);
     }
 
 }

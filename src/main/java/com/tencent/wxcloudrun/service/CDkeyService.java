@@ -23,6 +23,13 @@ import java.util.List;
 
 public interface CDkeyService extends IService<CDkey> {
 
+    public void generateCDkey(CDkey cdkey);
 
+    public CDkey checkCDkey(String cdkey);
+
+    public void expireCDkey(User user, CDkey cdkey);
+
+    @Transactional
+    public ApiResponse userConsumeCDkey(String userPhoneNumber, CDkey cdkey);
 
 }
