@@ -2,6 +2,7 @@ package com.tencent.wxcloudrun.entity;
 
 
 
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -11,21 +12,25 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "Files")
+@TableName("Files")
 public class File implements Serializable {
 
     @Id
+    @TableId(value = "fileId", type = IdType.AUTO)
     private int fileId;
 
+    @TableField(value = "fileName")
     private String fileName;
 
+    @TableField(value = "filePrefix")
     private String filePrefix;
 
-
+    @TableField(value = "createTime", fill = FieldFill.INSERT)
     private String createTime;
 
-
+    @TableField(value = "updateTime", fill = FieldFill.INSERT_UPDATE)
     private String updateTime;
+
 
 
     public File(String fileName,String filePrefix, String createTime, String updateTime) {

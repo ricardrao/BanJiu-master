@@ -51,13 +51,16 @@ public class UrlController {
         if(urlName==null || "".equals(urlName)){
             return ApiResponse.error("please input urlName");
         }
+        System.out.println(urlName);
+
         List<Url> urlList = urlService.getUrlByName(urlName);
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url", urlList);
         return ApiResponse.ok(jsonObject);
     }
 
-    //调用示例 /addUrl?urlInfo={"urlName":"2022kaoyanban","urlContent":"https://...","urlCategory":"TEACH","urlImage":"binary data"}
+    //调用示例 /addUrl?urlInfo={"urlName":"Google","urlContent":"https://www.google.com","urlCategory":"TEACH","fileName":"Banjiu","filePrefix":".jpg"}
     @RequestMapping("/addUrl")
     public ApiResponse addUrl(@RequestParam(value = "urlInfo") String urlInfo){
         if(urlInfo==null || "".equals(urlInfo)){
@@ -67,8 +70,8 @@ public class UrlController {
         String urlName = String.valueOf(urlObject.get("urlName"));
         String urlContent = String.valueOf(urlObject.get("urlContent"));
         String urlCategory = String.valueOf(urlObject.get("urlCategory"));
-        byte[] urlImage = urlObject.getBytes("urlImage");
-
+        String fileName = String.valueOf(urlObject.get("fileName"));
+        String filePrefix = String.valueOf(urlObject.get("filePrefix"));
 
 
         if(urlName==null || "".equals(urlName)){
@@ -80,13 +83,16 @@ public class UrlController {
         if(urlCategory==null || "".equals(urlCategory)){
             return ApiResponse.error("illegal urlCategory!");
         }
-        if(urlImage==null){
-            return ApiResponse.error("illegal urlImage!");
+        if(fileName==null || "".equals(fileName)){
+            return ApiResponse.error("illegal fileName!");
+        }
+        if(filePrefix==null || "".equals(filePrefix)){
+            return ApiResponse.error("illegal filePrefix!");
         }
 
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Url url = new Url(urlName, urlContent, urlCategory, urlImage, formatter.format(new Date()), formatter.format(new Date()));
+        Url url = new Url(urlName, urlContent, urlCategory, fileName, filePrefix, formatter.format(new Date()), formatter.format(new Date()));
 
         urlService.addUrl(url);
         return ApiResponse.ok();
