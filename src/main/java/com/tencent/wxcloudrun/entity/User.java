@@ -20,7 +20,7 @@ public class User {
 
     @Id
     @TableId(value = "userId", type = IdType.AUTO)
-    private int userId;
+    private Integer userId;
 
 
     @TableField(value = "account")

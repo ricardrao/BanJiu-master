@@ -18,7 +18,7 @@ public class Url {
 
     @Id
     @TableId(value = "urlId", type = IdType.AUTO)
-    private int urlId;
+    private Integer urlId;
 
     @TableField(value = "urlName")
     private String urlName;

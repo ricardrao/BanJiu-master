@@ -17,7 +17,7 @@ public class File implements Serializable {
 
     @Id
     @TableId(value = "fileId", type = IdType.AUTO)
-    private int fileId;
+    private Integer fileId;
 
     @TableField(value = "fileName")
     private String fileName;

@@ -60,7 +60,7 @@ public class CDkeyServiceImpl extends ServiceImpl<CDkeyMapper, CDkey> implements
             return null;
         }
         CDkey curKey = cdkeyList.get(0);
-        if(curKey.isUsed() == true){
+        if(curKey.isUsed()){
             return null;
         }
         return curKey;
@@ -68,6 +68,9 @@ public class CDkeyServiceImpl extends ServiceImpl<CDkeyMapper, CDkey> implements
 
     public void expireCDkey(User user, CDkey cdkey){
         cdkey.setUsed(true);
+        cdkey.setUserAccount(user.getAccount());
+        cdkey.setUserName(user.getUserName());
+        cdkey.setUserPhoneNumber(user.getPhoneNumber());
         cdkeyMapper.updateById(cdkey);
     }
 
@@ -76,14 +79,19 @@ public class CDkeyServiceImpl extends ServiceImpl<CDkeyMapper, CDkey> implements
     //cdkey设置失效->user表增加times->studentRemainTimes表新增Times
     @Transactional
     public ApiResponse userConsumeCDkey(String userPhoneNumber, CDkey cdkey){
-        User user = userService.getUserByPhoneNumber(userPhoneNumber).get(0);
+        List<User> userList = userService.getUserByPhoneNumber(userPhoneNumber);
+        if(userList==null || userList.size()==0){
+            return ApiResponse.error("no such student");
+        }
+        User user = userList.get(0);
         if(!UserCategory.STUDENT.name().equalsIgnoreCase(user.getUserCategory())){
             return ApiResponse.error("illegal user category");
         }
-
         this.expireCDkey(user, cdkey);
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         userService.updateUserValidTimes(user, cdkey.getValidTimes(), formatter.format(new Date()));
+
         String keyQuestionCategory = cdkey.getQuestionCategory();
         if(keyQuestionCategory.equals(QuestionCategory.original.name())){
             studentRemainTimesService.updateStudentOriginalTimes(user, cdkey);

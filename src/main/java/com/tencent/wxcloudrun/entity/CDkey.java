@@ -14,7 +14,7 @@ public class CDkey {
 
     @Id
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
 
     @TableField(value = "cdkey")
     private String cdkey;

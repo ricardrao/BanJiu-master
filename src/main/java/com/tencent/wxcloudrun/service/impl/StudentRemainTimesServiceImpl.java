@@ -1,5 +1,6 @@
 package com.tencent.wxcloudrun.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.wxcloudrun.entity.CDkey;
@@ -8,11 +9,13 @@ import com.tencent.wxcloudrun.entity.StudentRemainTimes;
 import com.tencent.wxcloudrun.entity.User;
 import com.tencent.wxcloudrun.mapper.FileMapper;
 import com.tencent.wxcloudrun.mapper.StudentRemainTimesMapper;
+import com.tencent.wxcloudrun.mapper.UserMapper;
 import com.tencent.wxcloudrun.service.FileService;
 import com.tencent.wxcloudrun.service.StudentRemainTimesService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @Service
@@ -39,19 +42,29 @@ public class StudentRemainTimesServiceImpl extends ServiceImpl<StudentRemainTime
     }
 
     public void updateStudentOriginalTimes(User user, CDkey cdkey){
+        //查询出已有学生
+        QueryWrapper<StudentRemainTimes> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(StudentRemainTimes::getStudentId, user.getUserId());
+        List<StudentRemainTimes> studentList = studentRemainTimesMapper.selectList(queryWrapper);
+        StudentRemainTimes curStudent = studentList.get(0);
+        //更新真题批改次数
         UpdateWrapper<StudentRemainTimes> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("studentPhoneNumber", user.getPhoneNumber());
-        StudentRemainTimes studentRemainTimes = new StudentRemainTimes();
-        studentRemainTimes.setOriginalQuestionTimes(studentRemainTimes.getOriginalQuestionTimes() + cdkey.getValidTimes());
-        studentRemainTimesMapper.update(studentRemainTimes,updateWrapper);
+        updateWrapper.lambda().eq(StudentRemainTimes::getStudentPhoneNumber, user.getPhoneNumber());
+        updateWrapper.lambda().set(StudentRemainTimes::getOriginalQuestionTimes, curStudent.getOriginalQuestionTimes() + cdkey.getValidTimes());
+        studentRemainTimesMapper.update(null, updateWrapper);
     }
 
     public void updateStudentSimulateTimes(User user, CDkey cdkey) {
+        //查询出已有学生
+        QueryWrapper<StudentRemainTimes> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(StudentRemainTimes::getStudentId, user.getUserId());
+        List<StudentRemainTimes> studentList = studentRemainTimesMapper.selectList(queryWrapper);
+        StudentRemainTimes curStudent = studentList.get(0);
+        //更新模拟题批改次数
         UpdateWrapper<StudentRemainTimes> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("studentPhoneNumber", user.getPhoneNumber());
-        StudentRemainTimes studentRemainTimes = new StudentRemainTimes();
-        studentRemainTimes.setSimulateQuestionTimes(studentRemainTimes.getSimulateQuestionTimes() + cdkey.getValidTimes());
-        studentRemainTimesMapper.update(studentRemainTimes,updateWrapper);
+        updateWrapper.lambda().set(StudentRemainTimes::getSimulateQuestionTimes, curStudent.getOriginalQuestionTimes() + cdkey.getValidTimes());
+        studentRemainTimesMapper.update(null, updateWrapper);
 
     }
 

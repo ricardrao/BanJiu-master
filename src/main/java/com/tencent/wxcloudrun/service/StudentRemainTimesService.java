@@ -15,7 +15,9 @@ public interface StudentRemainTimesService  extends IService<StudentRemainTimes>
 
 
     //增加学生
-    public void updateStudentOriginalTimes(User user, CDkey cdkey);
+    void updateStudentOriginalTimes(User user, CDkey cdkey);
 
-    public void updateStudentSimulateTimes(User user, CDkey cdkey);
+    void updateStudentSimulateTimes(User user, CDkey cdkey);
+
+    void addStudent(User user);
 }

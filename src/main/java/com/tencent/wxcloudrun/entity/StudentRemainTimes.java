@@ -15,7 +15,8 @@ import javax.persistence.Id;
 public class StudentRemainTimes {
 
     @Id
-    private int id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     @TableField(value = "studentId")
     private int studentId;

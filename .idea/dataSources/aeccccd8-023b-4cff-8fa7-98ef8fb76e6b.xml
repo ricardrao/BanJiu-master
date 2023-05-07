@@ -741,365 +741,426 @@ SELECT|sys.sys_config
       <ObjectGrants>SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,RELOAD,PROCESS,REFERENCES,INDEX,ALTER,SHOW DATABASES,CREATE TEMPORARY TABLES,LOCK TABLES,EXECUTE,REPLICATION SLAVE,REPLICATION CLIENT,CREATE VIEW,SHOW VIEW,CREATE ROUTINE,ALTER ROUTINE,CREATE USER,EVENT,TRIGGER,CREATE TABLESPACE!
 </ObjectGrants>
     </user>
-    <table id="231" parent="4" name="Counters"/>
-    <table id="232" parent="4" name="Files"/>
-    <table id="233" parent="4" name="StudentRemainTimes">
+    <table id="231" parent="4" name="Assessment">
+      <Comment>存所有题目</Comment>
+    </table>
+    <table id="232" parent="4" name="Counters"/>
+    <table id="233" parent="4" name="Files"/>
+    <table id="234" parent="4" name="StudentRemainTimes">
       <Comment>学生兑换次数表</Comment>
     </table>
-    <table id="234" parent="4" name="Urls">
+    <table id="235" parent="4" name="Urls">
       <Comment>外部跳转链接</Comment>
     </table>
-    <table id="235" parent="4" name="Users"/>
-    <table id="236" parent="4" name="cdkey">
+    <table id="236" parent="4" name="Users"/>
+    <table id="237" parent="4" name="cdkey">
       <Comment>cdkey表</Comment>
     </table>
-    <column id="237" parent="231" name="id">
+    <column id="238" parent="231" name="id">
+      <Position>1</Position>
+      <Comment>编号</Comment>
+      <DataType>int(32) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="239" parent="231" name="year">
+      <Position>2</Position>
+      <Comment>年份</Comment>
+      <DataType>int(32)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="240" parent="231" name="district">
+      <Position>3</Position>
+      <Comment>地区</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="241" parent="231" name="isOriginal">
+      <Position>4</Position>
+      <Comment>是否为真题</Comment>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="242" parent="231" name="subject">
+      <Position>5</Position>
+      <Comment>所属学科</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="243" parent="231" name="category">
+      <Position>6</Position>
+      <Comment>题目种类</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="244" parent="231" name="title">
+      <Position>7</Position>
+      <Comment>题目标题</Comment>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="245" parent="231" name="content">
+      <Position>8</Position>
+      <Comment>题目内容</Comment>
+      <DataType>longtext|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="246" parent="231" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="247" parent="232" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="238" parent="231" name="count">
+    <column id="248" parent="232" name="count">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>1</DefaultExpression>
     </column>
-    <column id="239" parent="231" name="createdAt">
+    <column id="249" parent="232" name="createdAt">
       <Position>3</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="240" parent="231" name="updatedAt">
+    <column id="250" parent="232" name="updatedAt">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="241" parent="231" name="PRIMARY">
+    <key id="251" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="242" parent="232" name="fileId">
+    <column id="252" parent="233" name="fileId">
       <Position>1</Position>
       <DataType>int(16) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="243" parent="232" name="fileName">
+    <column id="253" parent="233" name="fileName">
       <Position>2</Position>
       <DataType>varchar(512)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="244" parent="232" name="filePrefix">
+    <column id="254" parent="233" name="filePrefix">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="245" parent="232" name="createTime">
+    <column id="255" parent="233" name="createTime">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="246" parent="232" name="updateTime">
+    <column id="256" parent="233" name="updateTime">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="247" parent="232" name="uniqueFile">
+    <index id="257" parent="233" name="uniqueFile">
       <ColNames>fileName
 filePrefix</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="248" parent="232" name="PRIMARY">
+    <key id="258" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>fileId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="249" parent="232" name="uniqueFile">
+    <key id="259" parent="233" name="uniqueFile">
       <ColNames>fileName
 filePrefix</ColNames>
       <UnderlyingIndexName>uniqueFile</UnderlyingIndexName>
     </key>
-    <column id="250" parent="233" name="id">
+    <column id="260" parent="234" name="id">
       <Position>1</Position>
       <DataType>int(32)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="251" parent="233" name="studentId">
+    <column id="261" parent="234" name="studentId">
       <Position>2</Position>
       <DataType>int(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="252" parent="233" name="studentName">
+    <column id="262" parent="234" name="studentName">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="253" parent="233" name="originalQuestionTimes">
+    <column id="263" parent="234" name="originalQuestionTimes">
       <Position>4</Position>
       <DataType>int(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="254" parent="233" name="simulateQuestionTimes">
+    <column id="264" parent="234" name="simulateQuestionTimes">
       <Position>5</Position>
       <DataType>int(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="255" parent="233" name="studentPhoneNumber">
+    <column id="265" parent="234" name="studentPhoneNumber">
       <Position>6</Position>
       <DataType>varchar(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="256" parent="233" name="User表id唯一索引">
+    <index id="266" parent="234" name="User表id唯一索引">
       <ColNames>studentId</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="257" parent="233" name="学生手机号索引">
+    <index id="267" parent="234" name="学生手机号索引">
       <ColNames>studentPhoneNumber</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="258" parent="233" name="PRIMARY">
+    <key id="268" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="259" parent="233" name="User表id唯一索引">
+    <key id="269" parent="234" name="User表id唯一索引">
       <ColNames>studentId</ColNames>
       <UnderlyingIndexName>User表id唯一索引</UnderlyingIndexName>
     </key>
-    <column id="260" parent="234" name="urlId">
+    <column id="270" parent="235" name="urlId">
       <Position>1</Position>
       <DataType>int(16) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="261" parent="234" name="urlName">
+    <column id="271" parent="235" name="urlName">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="262" parent="234" name="urlContent">
+    <column id="272" parent="235" name="urlContent">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="263" parent="234" name="urlCategory">
+    <column id="273" parent="235" name="urlCategory">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="264" parent="234" name="fileName">
+    <column id="274" parent="235" name="fileName">
       <Position>5</Position>
       <DataType>varchar(512)|0s</DataType>
     </column>
-    <column id="265" parent="234" name="filePrefix">
+    <column id="275" parent="235" name="filePrefix">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="266" parent="234" name="createTime">
+    <column id="276" parent="235" name="createTime">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="267" parent="234" name="updateTime">
+    <column id="277" parent="235" name="updateTime">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="268" parent="234" name="uniqueUrlName">
+    <index id="278" parent="235" name="uniqueUrlName">
       <ColNames>urlName</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="269" parent="234" name="PRIMARY">
+    <key id="279" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>urlId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="270" parent="234" name="uniqueUrlName">
+    <key id="280" parent="235" name="uniqueUrlName">
       <ColNames>urlName</ColNames>
       <UnderlyingIndexName>uniqueUrlName</UnderlyingIndexName>
     </key>
-    <column id="271" parent="235" name="userId">
+    <column id="281" parent="236" name="userId">
       <Position>1</Position>
       <DataType>int(16) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="272" parent="235" name="account">
+    <column id="282" parent="236" name="account">
       <Position>2</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="273" parent="235" name="password">
+    <column id="283" parent="236" name="password">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="274" parent="235" name="userName">
+    <column id="284" parent="236" name="userName">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="275" parent="235" name="phoneNumber">
+    <column id="285" parent="236" name="phoneNumber">
       <Position>5</Position>
       <DataType>varchar(16)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="276" parent="235" name="userCategory">
+    <column id="286" parent="236" name="userCategory">
       <Position>6</Position>
       <DataType>enum(&apos;student&apos;, &apos;teacher&apos;, &apos;administrator&apos;)|0e</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="277" parent="235" name="createTime">
+    <column id="287" parent="236" name="createTime">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;CURRENT_TIMESTAMP&apos;</DefaultExpression>
     </column>
-    <column id="278" parent="235" name="updateTime">
+    <column id="288" parent="236" name="updateTime">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;CURRENT_TIMESTAMP&apos;</DefaultExpression>
     </column>
-    <column id="279" parent="235" name="homeworkCorrectionTimes">
+    <column id="289" parent="236" name="homeworkCorrectionTimes">
       <Position>9</Position>
       <DataType>int(32)|0s</DataType>
     </column>
-    <column id="280" parent="235" name="targetYear">
+    <column id="290" parent="236" name="targetYear">
       <Position>10</Position>
       <DataType>int(32)|0s</DataType>
     </column>
-    <column id="281" parent="235" name="targetSchool">
+    <column id="291" parent="236" name="targetSchool">
       <Position>11</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="282" parent="235" name="targetMajor">
+    <column id="292" parent="236" name="targetMajor">
       <Position>12</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="283" parent="235" name="uniqueAccount">
+    <index id="293" parent="236" name="uniqueAccount">
       <ColNames>account</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="284" parent="235" name="uniquePhoneNumber">
+    <index id="294" parent="236" name="uniquePhoneNumber">
       <ColNames>phoneNumber</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="285" parent="235" name="login">
+    <index id="295" parent="236" name="login">
       <ColNames>account
 password</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="286" parent="235" name="PRIMARY">
+    <key id="296" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="287" parent="235" name="uniqueAccount">
+    <key id="297" parent="236" name="uniqueAccount">
       <ColNames>account</ColNames>
       <UnderlyingIndexName>uniqueAccount</UnderlyingIndexName>
     </key>
-    <key id="288" parent="235" name="uniquePhoneNumber">
+    <key id="298" parent="236" name="uniquePhoneNumber">
       <ColNames>phoneNumber</ColNames>
       <UnderlyingIndexName>uniquePhoneNumber</UnderlyingIndexName>
     </key>
-    <column id="289" parent="236" name="id">
+    <column id="299" parent="237" name="id">
       <Position>1</Position>
       <DataType>int(32)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="290" parent="236" name="cdkey">
+    <column id="300" parent="237" name="cdkey">
       <Position>2</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="291" parent="236" name="questionCategory">
+    <column id="301" parent="237" name="questionCategory">
       <Position>3</Position>
       <DataType>enum(&apos;original&apos;, &apos;simulate&apos;)|0e</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="292" parent="236" name="validTimes">
+    <column id="302" parent="237" name="validTimes">
       <Position>4</Position>
       <DataType>int(32)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="293" parent="236" name="createTime">
+    <column id="303" parent="237" name="createTime">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;CURRENT_TIMESTAMP&apos;</DefaultExpression>
     </column>
-    <column id="294" parent="236" name="isUsed">
+    <column id="304" parent="237" name="isUsed">
       <Position>6</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="295" parent="236" name="userAccount">
+    <column id="305" parent="237" name="userAccount">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="296" parent="236" name="userName">
+    <column id="306" parent="237" name="userName">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="297" parent="236" name="userPhoneNumber">
+    <column id="307" parent="237" name="userPhoneNumber">
       <Position>9</Position>
       <DataType>varchar(11)|0s</DataType>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="298" parent="236" name="id唯一索引">
+    <index id="308" parent="237" name="id唯一索引">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="299" parent="236" name="cdkey唯一索引">
+    <index id="309" parent="237" name="cdkey唯一索引">
       <ColNames>cdkey</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="300" parent="236" name="cdkey查询索引">
+    <index id="310" parent="237" name="cdkey查询索引">
       <ColNames>cdkey</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="301" parent="236" name="账号查询索引">
+    <index id="311" parent="237" name="账号查询索引">
       <ColNames>userAccount</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="302" parent="236" name="手机号查询索引">
+    <index id="312" parent="237" name="手机号查询索引">
       <ColNames>userPhoneNumber</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="303" parent="236" name="PRIMARY">
+    <key id="313" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="304" parent="236" name="id唯一索引">
+    <key id="314" parent="237" name="id唯一索引">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id唯一索引</UnderlyingIndexName>
     </key>
-    <key id="305" parent="236" name="cdkey唯一索引">
+    <key id="315" parent="237" name="cdkey唯一索引">
       <ColNames>cdkey</ColNames>
       <UnderlyingIndexName>cdkey唯一索引</UnderlyingIndexName>
     </key>

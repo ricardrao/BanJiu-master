@@ -2,10 +2,12 @@ package com.tencent.wxcloudrun.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.wxcloudrun.config.*;
 import com.tencent.wxcloudrun.entity.StudentRemainTimes;
 import com.tencent.wxcloudrun.entity.User;
+import com.tencent.wxcloudrun.mapper.UserMapper;
 import com.tencent.wxcloudrun.service.StudentRemainTimesService;
 import com.tencent.wxcloudrun.service.UserService;
 import org.slf4j.Logger;
@@ -46,8 +48,8 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-    public ApiResponse getUserInfo(@RequestParam(value = "userName") String userName){
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
+    public ApiResponse getUserInfo(@RequestBody String userName){
         if(userName==null || "".equals(userName)){
             return ApiResponse.error("please input userName");
         }
@@ -86,15 +88,12 @@ public class UserController {
             return ApiResponse.error("illegal userName!");
         }
 
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("account", account)
-                .eq("phoneNumber", phoneNumber);
-
-        if(userService.getBaseMapper().selectOne(queryWrapper) == null){
-            return ApiResponse.error("user exists");
+        String userExistsResult = userService.getUserExistsResult(account, phoneNumber);
+        if(!userExistsResult.equalsIgnoreCase("approved")){
+            return ApiResponse.error(userExistsResult);
         }
 
-        if(!userCategorySet.contains(userCategory)){
+        if(!userCategorySet.contains(userCategory.toUpperCase())){
             return ApiResponse.error("user category is not allowed");
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -103,7 +102,8 @@ public class UserController {
 
         userService.getBaseMapper().insert(newUser);
 
-        User userByAccountAndPassword = userService.getUserByAccountAndPassword(newUser.getAccount(), newUser.getPassword());
+        List<User> userByAccountAndPasswordList = userService.getUserByAccountAndPassword(newUser.getAccount(), newUser.getPassword());
+        User userByAccountAndPassword = userByAccountAndPasswordList.get(0);
         StudentRemainTimes studentRemainTimes = new StudentRemainTimes();
         studentRemainTimes.setStudentId(userByAccountAndPassword.getUserId());
         studentRemainTimes.setStudentName(userByAccountAndPassword.getUserName());
@@ -126,12 +126,12 @@ public class UserController {
         JSONObject userObject = JSONObject.parseObject(userInfo);
         String account = String.valueOf(userObject.get("account"));
         String password = String.valueOf(userObject.get("password"));
-        User user = userService.getUserByAccountAndPassword(account, password);
-        if(user == null){
+        List<User> userList = userService.getUserByAccountAndPassword(account, password);
+        if(userList == null || userList.size() == 0){
             return ApiResponse.error("no such user or a wrong password");
         } else {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("user", user);
+            jsonObject.put("user", userList.get(0));
             return ApiResponse.ok(jsonObject);
         }
 
