@@ -8,6 +8,8 @@ import com.tencent.wxcloudrun.service.AssessmentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +19,10 @@ public class AssessmentImpl extends ServiceImpl<AssessmentMapper, Assessment> im
 
     @Override
     public boolean addAssessment(Assessment assessment) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String currentTime = formatter.format(new Date());
+        assessment.setCreateTime(currentTime);
+        assessment.setUpdateTime(currentTime);
         return this.saveOrUpdate(assessment);
     }
 
@@ -29,7 +35,11 @@ public class AssessmentImpl extends ServiceImpl<AssessmentMapper, Assessment> im
     }
 
     @Override
-    public boolean updateAssessment(Assessment assessment) {
+    public boolean updateAssessment(int assessmentId, Assessment assessment) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String currentTime = formatter.format(new Date());
+        assessment.setUpdateTime(currentTime);
+        assessment.setAssessmentId(assessmentId);
         if (assessmentMapper.updateById(assessment) > 0) {
             return true;
         }
