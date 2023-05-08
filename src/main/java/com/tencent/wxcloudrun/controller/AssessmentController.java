@@ -5,18 +5,16 @@ import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.entity.Assessment;
 import com.tencent.wxcloudrun.service.AssessmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
 public class AssessmentController {
     @Autowired
     private AssessmentService assessmentPromptService;
-    @RequestMapping(value = "/getAssessment", method = RequestMethod.GET)
-    public ApiResponse getEssayPrompt(@RequestParam(value = "assessmentId") Integer assessmentId) {
+    @RequestMapping(value = "/getAssessment", method = RequestMethod.POST)
+    public ApiResponse getEssayPrompt(@RequestBody JSONObject assessmentInfo) {
+        int assessmentId = (int) assessmentInfo.get("assessmentId");
         Assessment assessment = assessmentPromptService.getAssessment(assessmentId);
         if (assessment != null) {
             JSONObject jsonObject = new JSONObject();
@@ -36,7 +34,12 @@ public class AssessmentController {
         return ApiResponse.error("find assessments failed", null);
     }
     @RequestMapping(value = "/addAssessment",method = RequestMethod.POST)
-    public ApiResponse addAssessment(@RequestParam(value = "assessment") Assessment assessment) {
+    public ApiResponse addAssessment(@RequestBody JSONObject assessmentInfo) {
+        Assessment assessment = JSONObject.parseObject(assessmentInfo.toJSONString(), Assessment.class);
+        ApiResponse response = assessmentPromptService.checkAssessmentInfo(assessment);
+        if(response.getCode() != 200){
+            return response;
+        }
         if (assessmentPromptService.addAssessment(assessment)) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("assessment", assessment);
@@ -46,7 +49,9 @@ public class AssessmentController {
     }
 
     @RequestMapping(value = "/updateAssessment",method = RequestMethod.POST)
-    public ApiResponse updateAssessment(@RequestParam(value = "assessmentId") Integer assessmentId, @RequestParam(value = "assessment") Assessment assessment) {
+    public ApiResponse updateAssessment(@RequestBody JSONObject assessmentInfo) {
+        Assessment assessment = JSONObject.parseObject(assessmentInfo.toJSONString(), Assessment.class);
+        int assessmentId = (int) assessmentInfo.get("assessmentId");
         if (assessmentPromptService.updateAssessment(assessmentId, assessment)) {
             return ApiResponse.ok();
         }
@@ -54,7 +59,8 @@ public class AssessmentController {
     }
 
     @RequestMapping(value = "/deleteAssessment", method = RequestMethod.POST)
-    public ApiResponse deleteAssessment(@RequestParam(value = "assessmentId") Integer assessmentId) {
+    public ApiResponse deleteAssessment(@RequestBody JSONObject assessmentInfo) {
+        int assessmentId = (int) assessmentInfo.get("assessmentId");
         if (assessmentPromptService.deleteAssessment(assessmentId)) {
             return ApiResponse.ok();
         }
