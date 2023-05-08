@@ -8,7 +8,7 @@ import java.util.List;
 public interface AssessmentService  extends IService<Assessment> {
     public boolean addAssessment(Assessment assessment);
     public boolean deleteAssessment(int essayId);
-    public boolean updateAssessment(Assessment assessment);
+    public boolean updateAssessment(int assessmentId, Assessment assessment);
     List<Assessment> getAllAssessments(int current, int size);
-    Assessment getAssessment(int essayPromptId);
+    Assessment getAssessment(int assessmentId);
 }
